@@ -1,49 +1,38 @@
 # Multi-line diagnostics for the optical identification of Supernova Remnants
 
 These are  diagnostics for the optical identification of Supernova Remnants (SNRs). In 
-<a href="https://ui.adsabs.harvard.edu/abs/2020MNRAS.491..889K/abstract">Kopsacheili et al. 2020</a> multi-line diagnostics are presented for the separation of SNRs from HII regions. They have been built using <a href="https://ui.adsabs.harvard.edu/abs/2008ApJS..178...20A/abstract">shock</a> and photoionization or starburst (<a href="https://ui.adsabs.harvard.edu/abs/2001ApJ...556..121K/abstract">2001</a>, <a href="https://ui.adsabs.harvard.edu/abs/2010AJ....139..712L/abstract">2010</a>) models from <a href="https://ascl.net/1306.008">MAPPINGS III</a> modeling code that are considered as SNRs and HII regions respectively. 
+<a href="https://ui.adsabs.harvard.edu/abs/2020MNRAS.491..889K/abstract">Kopsacheili et al. 2020</a> multi-line diagnostics are presented for the separation of SNRs from HII regions. They have been built using <a href="https://ui.adsabs.harvard.edu/abs/2008ApJS..178...20A/abstract">shock</a> (2008) and photoionization or starburst (<a href="https://ui.adsabs.harvard.edu/abs/2001ApJ...556..121K/abstract">2001</a>, <a href="https://ui.adsabs.harvard.edu/abs/2010AJ....139..712L/abstract">2010</a>) models from <a href="https://ascl.net/1306.008">MAPPINGS III</a> modeling code that are considered as SNRs and HII regions respectively. 
 
-The separation of these two types of nebulae is based on the different emission-line ratios of lines presented in their spectra. In the multi-line diagnostics the emission-line ratios predicted by the models are combined in 2 and 3 dimensions (where each dimension is an emission-line ratio), and using a Support Vector Machine (SVM) model the line (in the case of 2D) or the surface (in the case of 3D) that best separates shock from photoionization models (or SNRs from HII regions) has been calculated.
+The separation of these two types of nebulae is based on the different emission-line ratios of lines presented in their spectra. In the multi-line diagnostics the emission-line ratios predicted by the models are combined in 2 and 3 dimensions (where each dimension is an emission-line ratio), and using a Support Vector Machine (SVM) model, the line (in the case of 2D) or the surface (in the case of 3D) that best separates shock from photoionization models (or SNRs from HII regions) has been calculated.
 
-The diagnostics are basically the function that describes the aforementioned lines or surfaces. They combine the following emission-line ratios in 2 and 3 dimensions: 
+The diagnostics are basically the functions that describe the aforementioned lines or surfaces. They combine the following emission-line ratios in 2 and 3 dimensions: 
 $`\rm [N\,II](6583)/H\alpha,\, [S\,II](6716,6731)/H\alpha,\, [O\,I](6300)/H\alpha,\, [O\,II](3727,3729)/H\beta,\,[O\,III](5008)/H\beta `$.
 
 In <a href="https://ui.adsabs.harvard.edu/abs/2020MNRAS.491..889K/abstract">Kopsacheili et al. 2020</a> the functions are presented in tables where one can find the coefficients combined with polynomials of 2nd and 3rd order and construct them. Here, these functions can be found in python format and used directly. In every case, in order for a source to be considered as a SNR$`^*`$ the function $f$ should be positive. Apart from the functions, the schematic respesantation of the diagnostics is presented. In every case, red color corresponds to the starburst models (HII regions) and green to the shock models (SNRs). The black lines and the blue surfaces are the lines and surfaces that best separate the two classes (i.e. the decision functions of SVM).
 
-The scripts '2D_SNR_diagsotics.py' and '3D_SNR_diagsotics.py' are provided too, along with the ascii files
-'factors_2d.txt' and 'factors_3d.txt'. The latters contain the factors axx and axxx (as presented below) that are used by the polynomials that describe the diagnostics. The '2D_SNR_diagsotics.py' and '3D_SNR_diagsotics.py' use these files in order to calculate the diagnostics. In the case of 2D diagnostics, one can run:
+The scripts '2D_SNR_diagsotics.py' and '3D_SNR_diagsotics.py' are also provided, along with the ascii files
+'factors_2d.txt' and 'factors_3d.txt'. The latters contain the factors axx and axxx (as presented below) that are used by the polynomials that describe the diagnostics. The '2D_SNR_diagsotics.py' and '3D_SNR_diagsotics.py' use these files in order to calculate the diagnostics. These scripts can be run directly and return if a source satisfies a given diagnostic or not. In the case of 2D diagnostics, one can run:
 
-<pre xml:lang="latex">python 2D_SNR_diagntostics.py -ha [x1] -sii [x2] -nii [x3]  -oi [x4] -oii [x5] -oiii [x6] -hb [x7] -diag [diagntostic] </pre>
+<pre xml:lang="latex">python 2D_SNR_diagntostics.py -ha [x1] -sii [x2] -nii [x3] -oi [x4] -oii [x5] -oiii [x6] -hb [x7] -diag [diagntostic] </pre>
 
 where [x1], [x2], ....., [x7] is the observed flux/luminosity of a source  of: $`\rm H\alpha(6563), [S\,II](6717,6731), [N\,II](6583), [O\,I](6300), [O\,II](3729,3731), [O\,III](5007), H\beta(4681)`$ respectively.
 
 The parameter 'diag' refers to the 2D-diagnostics of interest and it should be one of the following:
-1. 'SII-NII', 2. 'NII-OIII', 3. 'SII-OIII', 4. 'OI-OIII', 5. 'NII-OI', 
-6. 'OII-OIII', 7. 'NII-OII', 8. 'SII-OI', 9. 'OI-OII', 10. 'SII-OII'
+<p> 1. 'SII-NII', 2. 'NII-OIII', 3. 'SII-OIII', 4. 'OI-OIII', 5. 'NII-OI', <br>6. 'OII-OIII', 7. 'NII-OII', 8. 'SII-OI', 9. 'OI-OII', 10. 'SII-OII'  
 
-Those are the diagntostics that combine the emission line ratios: 
-1. [S II]/Ha-[N II]/Ha,  2. [N II]/Ha-[O III]/Hb, 3. [S II]/Ha-[O III]/Hb, 4. [O I]/Ha-[O III]/Hb, 5. [N II]/Ha-[O I]/Ha
-6. [O II]/Hb-[O III]/Hb, 7. [N II]/Ha-[O II]/Hb,  8. [S II]/Ha-[O I]/Ha,   9. [O I]/Ha-[O II]/Hb,  10. [S II]/Ha-[O II]/Hb,
+Those are the diagntostics that combine the emission line ratios: <br> 1. [S II]/$`\rm H\alpha`$-[N II]/$`\rm H\alpha`$,  2. [N II]/$`\rm H\alpha`$-[O III]/$`\rm H\beta`$, 3. [S II]/$`\rm H\alpha`$-[O III]/$`\rm H\beta`$, 4. [O I]/$`\rm H\alpha`$-[O III]/$`\rm H\beta`$, 5. [N II]/$`\rm H\alpha`$-[O I]/$`\rm H\alpha`$ <br> 6. [O II]/$`\rm H\beta`$-[O III]/$`\rm H\beta`$, 7. [N II]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$,  8. [S II]/$`\rm H\alpha`$-[O I]/$`\rm H\alpha`$,   9. [O I]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$,  10. [S II]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$,  
    respectively.
 
 For the 3D diagnostics:
-<pre xml:lang="latex">python 3D_SNR_diagntostics.py -ha [x1] -sii [x2] -nii [x3]  -oi [x4] -oii [x5] -oiii [x6] -hb [x7] -diag [diagntostic]  </pre>
+<pre xml:lang="latex">python 3D_SNR_diagntostics.py -ha [x1] -sii [x2] -nii [x3] -oi [x4] -oii [x5] -oiii [x6] -hb [x7] -diag [diagntostic]  </pre>
 
-The [x1], [x2], ....., [x7] are same as in the 2D case, however now, the parameter 'diag' refers to the 3D diagnostics and it should be one of the following:]
+The [x1], [x2], ....., [x7] are same as in the 2D case, however now, the parameter 'diag' refers to the 3D diagnostics and it should be one of the following:
 
+1.'NII-SII-OIII', 2.'NII-SII-OI', 3.'NII-SII-OII',  4.'NII-OII-OIII', 5.'NII-OI-OII', <br> 6.'NII-OI-OIII',  7.'SII-OI-OII', 8.'SII-OII-OIII', 9.'SII-OI-OIII', 10.'OI-OII-OIII',
 
-1.'NII-SII-OIII', 2.'NII-SII-OI', 3.'NII-SII-OII',  4.'NII-OII-OIII', 5.'NII-OI-OII',
+Those are the diagntostics that combine the emission line ratios: <br> 1. [N II]/$`\rm H\alpha`$-[S II]/$`\rm H\alpha`$-[O III]/$`\rm H\beta`$,  2. [N II]/$`\rm H\alpha`$-[S II]/$`\rm H\alpha`$-[O I]/$`\rm H\alpha`$, 3. [N II]/$`\rm H\alpha`$-[S II]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$,  4. [N II]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$-[O III]/$`\rm H\beta`$,  <br>  5. [N II]/$`\rm H\alpha`$-[O I]/$`\rm H\alpha`$-[O II]/Hb, <br>  6. [N II]/$`\rm H\alpha`$-[O I]/$`\rm H\alpha`$-[O III]/$`\rm H\beta`$,   7. [S II]/$`\rm H\alpha`$-[O I]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$, 8. [S II]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$-[O III]/$`\rm H\beta`$, 9. [S II]/$`\rm H\alpha`$-[O I]/$`\rm H\alpha`$-[O III]/$`\rm H\beta`$, <br>  10. [O I]/$`\rm H\alpha`$-[O II]/$`\rm H\beta`$-[O III]/$`\rm H\beta`$, <br> respectively.
 
-6.'NII-OI-OIII',  7.'SII-OI-OII', 8.'SII-OII-OIII', 9.'SII-OI-OIII', 10.'OI-OII-OIII',
-
-Those are the diagntostics that combine the emission line ratios: 
-
-1.[N II]/Ha-[S II]/Ha-[O III]/Hb,  2.[N II]/Ha-[S II]/Ha-[O I]/Ha, 3.[N II]/Ha-[S II]/Ha-[O II]/Hb,  4.[N II]/Ha-[O II]/Hb-[O III]/Hb, 5.[N II]/Ha-[O I]/Ha-[O II]/Hb,
-
-6.[N II]/Ha-[O I]/Ha-[O III]/Hb,   7.[S II]/Ha-[O I]/Ha-[O II]/Hb, 8.[S II]/Ha-[O II]/Hb-[O III]/Hb, 9.[S II]/Ha-[O I]/Ha-[O III]/Hb, 10.[O I]/Ha-[O II]/Hb-[O III]/Hb,
-respectively.
-
-In both cases, the default value of the emission lines is 0.01. This means that if one or more emission lines are not available  they can be skipped (of course in this case the diagnsotics that use these lines cannot be calculated).  There is no default diagnostic so it should be always defined.
+In both cases, the default value of the emission lines is 0.01. This means that if one or more emission lines are not available  they can be skipped (of course in this case the diagnsotics that use these lines are not valid).  There is no default diagnostic so it should be always defined.
 
 *$`^*`$ By using these diagnostics someone should be aware that false positives can be identified. For this reason it is more safe to consider them all as candidate SNRs.*
 
@@ -158,7 +147,7 @@ f_OI_OIII = lambda x, y: (a30*x**3.0 + a21*x**2.0*y + a20*x**2.0 + a12*x*y**2.0 
 
 $`\rm f\_NII\_OI(x, y) = a30x^3 + a21x^2y + a20x^2 + a12xy^2 + a11xy + a10x + a03y^3 + a02y^2 + a01y + a00`$
 
-<font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$ and $\`rm y = log_{10}([O\,I]/H\alpha).`$ </font>
+<font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$ and $`\rm y = log_{10}([O\,I]/H\alpha).`$ </font>
 <br> <font color='gray'>  In this case if f_NII_OI(x, y) > 0, the source can be considered as a SNR. </font>
 
 ![image](https://github.com/mariakop21/Diagnostics/assets/25170839/001fde1b-d61c-42b1-b9bf-a2ac0e96c2b4)
@@ -204,7 +193,7 @@ f_OII_OIII = lambda x, y: (a30*x**3.0 + a21*x**2.0*y + a20*x**2.0 + a12*x*y**2.0
 
 $`\rm f\_NII\_OII(x, y) = a10x + a01y + a00`$
 
-<font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$ and $`\rm y = log_{10}([O\,III]/H\beta).`$ </font>
+<font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$ and $`\rm y = log_{10}([O\,II]/H\beta).`$ </font>
 <br> <font color='gray'>  In this case if f_NII_OIII(x, y) > 0, the source can be considered as a SNR. </font>
 
 ![image](https://github.com/mariakop21/Diagnostics/assets/25170839/c7f2fc42-595b-426b-8794-e36ad5c9cbd1)
@@ -315,7 +304,7 @@ f_SII_OII = lambda x, y: (a30*x**3.0 + a21*x**2.0*y + a20*x**2.0 + a12*x*y**2.0 
 <br> a010 =  1.267
 <br> a000 =  2.413
 
-$`\rm f\_NII\_SII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_NII\_SII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy  + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm  + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z  + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$, $`\rm y = log_{10}([S\,II]/H\alpha)`$, and $`\rm z = log_{10}([O\,III]/H\beta).`$ </font>
 <br> <font color='gray'> If f_NII_SII_OIII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -353,7 +342,7 @@ f_NII_SII_OIII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x*
 <br> a010 =  -1.822
 <br> a000 =  2.382
 
-$`\rm f\_NII\_SII\_OI(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_NII\_SII\_OI(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy  + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$, $`\rm y = log_{10}([S\,II]/H\alpha)`$, and $`\rm z = log_{10}([O\,I]/H\alpha).`$ </font>
 <br> <font color='gray'> If f_NII_SII_OI(x, y) > 0, the source can be considered as a SNR. </font>
@@ -391,7 +380,7 @@ f_NII_SII_OI = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x**2
 <br> a010 =  2.202
 <br> a000 =  1.520
 
-$`\rm f\_NII\_SII\_OII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_NII\_SII\_OII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy  + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$, $`\rm y = log_{10}([S\,II]/H\alpha)`$, and $`\rm z = log_{10}([O\,II]/H\beta).`$ </font>
 <br> <font color='gray'> If f_NII_SII_OII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -429,7 +418,7 @@ f_NII_SII_OII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x**
 <br> a010 =  -1.199
 <br> a000 =  3.478
 
-$`\rm f\_NII\_OII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_NII\_OII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$, $`\rm y = log_{10}([O\,II]/H\beta)`$, and $`\rm z = log_{10}([O\,III]/H\beta).`$ </font>
 <br> <font color='gray'> If f_NII_SII_OII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -467,7 +456,7 @@ f_NII_OII_OIII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x*
 <br> a010 =  1.578
 <br> a000 =  3.734
 
-$`\rm f\_NII\_OI\_OII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_NII\_OI\_OII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $\rm x = log_{10}([N\,II]/H\alpha)$, $\rm y = log_{10}([O\,I]/H\alpha)$, and $\rm z = log_{10}([O\,II]/H\beta).$ </font>
 <br> <font color='gray'> If f_NII_OI_OII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -505,7 +494,7 @@ f_NII_OI_OII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x**2
 <br> a010 =  -0.862
 <br> a000 =  0.567
 
-$`\rm f\_NII\_OI\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_NII\_OI\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy  + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([N\,II]/H\alpha)`$, $`\rm y = log_{10}([O\,I]/H\alpha)`$, and $`\rm z = log_{10}([O\,III]/H\beta).`$ </font>
 <br> <font color='gray'> If f_NII_OI_OIII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -543,7 +532,7 @@ f_NII_OI_OIII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x**
 <br> a010 =  1.213
 <br> a000 =  4.108
 
-$`\rm f\_SII\_OI\_OII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_SII\_OI\_OII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy  + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([S\,II]/H\alpha)`$, $`\rm y = log_{10}([O\,I]/H\alpha)`$, and $`\rm z = log_{10}([O\,III]/H\beta).`$ </font>
 <br> <font color='gray'> If f_SII_OI_OII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -581,7 +570,7 @@ f_SII_OI_OII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x**2
 <br> a010 =  -3.676
 <br> a000 =   4.974
 
-$`\rm f\_SII\_OII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_SII\_OII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy  + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([S\,II]/H\alpha)`$, $`\rm y = log_{10}([O\,II]/H\beta)`$, and $`\rm z = log_{10}([O\,III]/H\beta).`$ </font>
 <br> <font color='gray'> If f_SII_OII_OIII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -619,7 +608,7 @@ f_SII_OII_OIII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x*
 <br> a010 =  -1.357
 <br> a000 =   0.303
 
-$`\rm f\_SII\_OI\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_SII\_OI\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([S\,II]/H\alpha)`$, $`\rm y = log_{10}([O\,I]/H\alpha)`$, and $`\rm z = log_{10}([O\,III]/H\beta).`$ </font>
 <br> <font color='gray'> If f_SII_OI_OIII(x, y) > 0, the source can be considered as a SNR. </font>
@@ -657,7 +646,7 @@ f_SII_OI_OIII = lambda x, y, z:(a300*x**3 + a201*x**2*z + a210*x**2*y + a200*x**
 <br> a010 =  -2.228
 <br> a000 =   3.070
 
-$`\rm f\_OI\_OII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy    + a100x + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
+$`\rm f\_OI\_OII\_OIII(x, y, z) = a300x^3 + a201x^2z + a210x^2y + a200x^2 + a102xz^2 + a111xyz +  a101xz  + a120xy^2 + a110xy  + a100x `$ <br>  $` \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \,\,\, \rm + a003z^3 + a012yz^2 +  a002z^2 + a021y^2z + a011yz + a001z    + a030y^3   + a020y^2+  a010y + a000`$
 
 <font color='gray'>  where $`\rm x = log_{10}([O\,I]/H\alpha)`$, $`\rm y = log_{10}([O\,II]/H\beta)`$, and $`\rm z = log_{10}([O\,III]/H\beta).`$ </font>
 <br> <font color='gray'> If f_OI_OII_OIII(x, y) > 0, the source can be considered as a SNR. </font>
