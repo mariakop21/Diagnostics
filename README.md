@@ -109,7 +109,7 @@ f_SII_OIII = lambda x, y: (a30*x**3.0 + a21*x**2.0*y + a20*x**2.0 + a12*x*y**2.0
 
 ### $`\rm {\bf{[O\,I]/H\alpha - [O\,III]/H\beta}}`$ 
 <br> a30 =  0.465
-<br> a21 =  0.245
+<br> a21 =  -0.245
 <br> a20 =  -0.432
 <br> a12 =  1.067
 <br> a11 =  -0.887
